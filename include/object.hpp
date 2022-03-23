@@ -56,6 +56,10 @@ public:
     bool& remove() { return _remove; }
     void remove(bool remove) { _remove = remove; }
 
+    const bool& use_texture() const { return _use_texture; }
+    bool& use_texture() { return _use_texture; }
+    void use_texture(bool use_texture) { _use_texture = use_texture; }
+
     void draw() 
     {
         glPushMatrix();
@@ -71,11 +75,11 @@ public:
         glRotatef(_rotation.y(), 0.0f, 1.0f, 0.0f);
         glRotatef(_rotation.z(), 0.0f, 0.0f, 1.0f);
         
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, _ambient.data);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, _diffuse.data);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, _specular.data);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, _emmision.data);
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, _shininess);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, _ambient.data);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, _diffuse.data);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, _specular.data);
+        glMaterialfv(GL_FRONT, GL_EMISSION, _emmision.data);
+        glMaterialf(GL_FRONT, GL_SHININESS, _shininess);
         glColor4f(_color.x(), _color.y(), _color.z(), _color.w());
         
         if (_use_light)
@@ -112,6 +116,7 @@ private:
     vector4 _emmision = vector4(0.0f);
     float _shininess = 0.0f;
     bool _use_light = true;
+    bool _use_texture = false;
     bool _remove = false;
 };
 

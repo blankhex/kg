@@ -13,22 +13,24 @@
 class app
 {
 public:
-    void init()
+    void init(kg::vector4 color = kg::vector4(0.0f))
     {
-        glClearColor(0, 0, 0, 0);
+        static float lighting_ambient[4] = {0.05f, 0.05f, 0.05f, 1.0f};
+
+        glClearColor(color.x(), color.y(), color.z(), color.w());
         glClearDepth(1.0f);
         
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
         glEnable(GL_NORMALIZE);
         glEnable(GL_TEXTURE_2D);
-        glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-        glCullFace(GL_BACK);
-
-        //glEnable(GL_BLEND);
-        //glDisable(GL_DEPTH_TEST);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lighting_ambient);
         
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        glCullFace(GL_BACK);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glEnable(GL_COLOR_MATERIAL);
 
         glDepthFunc(GL_LEQUAL);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -80,6 +82,14 @@ public:
 
         for (auto& obj : _objects)
         {
+            if (obj->use_texture())
+            {
+                glBindTexture(GL_TEXTURE_2D, _texture);
+            }
+            else
+            {
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
             obj->draw();
         }
 

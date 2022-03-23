@@ -11,9 +11,7 @@
 
 app myapp;
 
-
 // Собственные объекты 
-
 class animated_teapot : public kg::wire_teapot
 {
 protected:

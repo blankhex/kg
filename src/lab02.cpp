@@ -45,9 +45,9 @@ protected:
         auto& camera = myapp.camera();
         auto& position = camera.position();
 
-        position.x() = sin(time / 100.0f) * 5.0f;
-        position.y() = 2.5f;
-        position.z() = cos(time / 100.0f) * 5.0f;
+        position.x() = sin(time / 100.0f) * 7.0f;
+        position.y() = 3.5f;
+        position.z() = cos(time / 100.0f) * 7.0f;
 
         camera.look_at(kg::vector3(0.0f));
     }

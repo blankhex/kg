@@ -206,6 +206,7 @@ int main(int argc, char **argv)
     glutCreateWindow("KG");
 
     myapp.init();
+    myapp.load_image("stone.bmp");
 
     // Собсвтенные объекты здесь
     auto grid = new kg::grid();

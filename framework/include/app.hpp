@@ -49,7 +49,11 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-        _bitmap.load("test.bmp");
+    }
+
+    void load_image(const std::string& path)
+    {
+        _bitmap.load(path);
         glTexImage2D(GL_TEXTURE_2D, 0, 3, _bitmap.width(), _bitmap.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _bitmap.data().data());
     }
 

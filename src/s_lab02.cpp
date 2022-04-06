@@ -197,6 +197,7 @@ int main(int argc, char** argv)
     glutCreateWindow("KG");
 
     myapp.init();
+    myapp.load_image("wood.bmp");
 
     // Собсвтенные объекты здесь
     auto cmover = new camera_mover();

@@ -17,7 +17,9 @@ OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(OBJS))
 DEPS := $(wildcard $(INCDIR)/*.hpp framework/include/*.hpp)
 
 # vvv	Добавьте свои цели сборки сюда	vvv
-TARGETS := lab01.exe lab02.exe final.exe m_lab01.exe
+TARGETS := s_lab01.exe s_lab02.exe s_final.exe
+TARGETS += a_lab01.exe a_lab02.exe a_final.exe
+TARGETS += m_lab01.exe m_lab02.exe m_final.exe
 # ^^^	Добавьте свои цели сборки сюда	^^^
 
 all: build
@@ -41,15 +43,30 @@ clean:
 .PHONY: clean
 
 # vvv	Добавьте свои цели сборки сюда	vvv
-lab01.exe: $(OBJDIR)/lab01.o framework/framework.a
+s_lab01.exe: $(OBJDIR)/s_lab01.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 
-lab02.exe: $(OBJDIR)/lab02.o framework/framework.a
+s_lab02.exe: $(OBJDIR)/s_lab02.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 
-final.exe: $(OBJDIR)/final.o framework/framework.a
+s_final.exe: $(OBJDIR)/s_final.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 
 m_lab01.exe: $(OBJDIR)/m_lab01.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+m_lab02.exe: $(OBJDIR)/m_lab02.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+m_final.exe: $(OBJDIR)/m_final.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+a_lab01.exe: $(OBJDIR)/a_lab01.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+a_lab02.exe: $(OBJDIR)/a_lab02.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+a_final.exe: $(OBJDIR)/a_final.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 # ^^^	Добавьте свои цели сборки сюда	^^^

@@ -16,6 +16,10 @@ public:
     vector3& position() { return _position; }
     void position(const vector3& position) { _position = position; }
 
+    const vector3& origin() const { return _origin; }
+    vector3& origin() { return _origin; }
+    void origin(const vector3& origin) { _origin = origin; }
+
     const vector3& rotation() const { return _rotation; }
     vector3& rotation() { return _rotation; }
     void rotation(const vector3& rotation) { _rotation = rotation; }
@@ -75,6 +79,8 @@ public:
         glRotatef(_rotation.y(), 0.0f, 1.0f, 0.0f);
         glRotatef(_rotation.z(), 0.0f, 0.0f, 1.0f);
 
+        glTranslatef(_origin.x(), _origin.y(), _origin.z());
+
         glMaterialfv(GL_FRONT, GL_AMBIENT, _ambient.data);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, _diffuse.data);
         glMaterialfv(GL_FRONT, GL_SPECULAR, _specular.data);
@@ -107,6 +113,7 @@ protected:
 private:
     vector4 _color = vector4(0.0f);
     vector3 _position = vector3(0.0f);
+    vector3 _origin = vector3(0.0f);
     vector3 _rotation = vector3(0.0f);
     vector3 _scale = vector3(1.0f);
 

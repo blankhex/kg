@@ -9,6 +9,9 @@
 
 app myapp;
 
+bool action_a = false;
+bool action_b = false;
+
 // Собственные объекты
 class animated_torus : public kg::solid_torus
 {
@@ -77,6 +80,15 @@ protected:
         light.linear_attenuation() = 0.80f;
         light.quadratic_attenuation() = 0.08f;
         light.ambient(kg::vector4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        auto& diffuse_light = light.diffuse();
+
+        if (action_a)
+            diffuse_light.x() = kg::ease(diffuse_light.x(), 0.0f, 0.1, kg::ease_in_out_sine);
+        else
+            diffuse_light.x() = kg::ease(diffuse_light.x(), 1.0f, 0.1, kg::ease_in_out_sine);
+        
+        color(diffuse_light);
     }
 
     virtual void on_draw()
@@ -151,6 +163,34 @@ void display()
     myapp.draw();
 }
 
+void keyboard_down(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'o':
+        action_a = true;
+        break;
+    
+    case 'p':
+        action_b = true;
+        break;
+    }
+}
+
+void keyboard_up(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'o':
+        action_a = false;
+        break;
+    
+    case 'p':
+        action_b = false;
+        break;
+    }
+}
+
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -207,6 +247,8 @@ int main(int argc, char **argv)
     sphere->diffuse(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
     myapp.add(sphere);
 
+    glutKeyboardFunc(keyboard_down);
+    glutKeyboardUpFunc(keyboard_up);
     glutDisplayFunc(display);
     timer(0);
     glutMainLoop();

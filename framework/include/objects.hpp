@@ -200,21 +200,80 @@ protected:
 
 class pivot : public object
 {
+    const float TOTAL_LENGHT = 5.0f;
+    const float ARROW_LENGHT = 0.3f;
+    const float LETTER_LENGHT = 0.5f;
+    const float LETTER_PAD = 0.2f;
+    const float ARROW_RATE = 1.1f;
 protected:
     virtual void on_draw()
     {
         glDisable(GL_LIGHTING);
+        
+        glLineWidth(2.0f);
 
         glBegin(GL_LINES);
-        glColor3f(1.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
-        glColor3f(1.0f, 0.0f, 0.0f); glVertex3f(5.0f, 0.0f, 0.0f);
+        glColor3f(1.0f, 0.0f, 0.0f); 
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(TOTAL_LENGHT, 0.0f, 0.0f);
 
-        glColor3f(0.0f, 1.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
-        glColor3f(0.0f, 1.0f, 0.0f); glVertex3f(0.0f, 5.0f, 0.0f);
+        glColor3f(0.0f, 1.0f, 0.0f); 
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, TOTAL_LENGHT, 0.0f);
 
-        glColor3f(0.0f, 0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
-        glColor3f(0.0f, 0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 5.0f);
+        glColor3f(0.0f, 0.0f, 1.0f); 
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, 0.0f, TOTAL_LENGHT);
+
+        // Arrows
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(TOTAL_LENGHT - ARROW_LENGHT, ARROW_LENGHT, 0.0f);
+        glVertex3f(TOTAL_LENGHT, 0.0f, 0.0f);
+        glVertex3f(TOTAL_LENGHT, 0.0f, 0.0f);
+        glVertex3f(TOTAL_LENGHT - ARROW_LENGHT, -ARROW_LENGHT, 0.0f);
+        
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(ARROW_LENGHT, TOTAL_LENGHT - ARROW_LENGHT, 0.0f);
+        glVertex3f(0.0f, TOTAL_LENGHT, 0.0f);
+        glVertex3f(0.0f, TOTAL_LENGHT, 0.0f);
+        glVertex3f(-ARROW_LENGHT, TOTAL_LENGHT - ARROW_LENGHT, 0.0f);
+
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(0.0f, ARROW_LENGHT, TOTAL_LENGHT - ARROW_LENGHT);
+        glVertex3f(0.0f, 0.0f, TOTAL_LENGHT);
+        glVertex3f(0.0f, 0.0f, TOTAL_LENGHT);
+        glVertex3f(0.0f, -ARROW_LENGHT, TOTAL_LENGHT - ARROW_LENGHT);
         glEnd();
+
+        // Letters
+        glBegin(GL_LINES);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(TOTAL_LENGHT / ARROW_RATE - LETTER_LENGHT, LETTER_PAD, 0.0f);
+        glVertex3f(TOTAL_LENGHT / ARROW_RATE, LETTER_PAD + LETTER_LENGHT, 0.0f);
+        glVertex3f(TOTAL_LENGHT / ARROW_RATE - LETTER_LENGHT, LETTER_PAD + LETTER_LENGHT, 0.0f);
+        glVertex3f(TOTAL_LENGHT / ARROW_RATE, LETTER_PAD, 0.0f);
+
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(LETTER_LENGHT + LETTER_PAD, TOTAL_LENGHT / ARROW_RATE + LETTER_LENGHT, 0.0f);
+        glVertex3f(LETTER_LENGHT + LETTER_PAD - LETTER_LENGHT / 2.0f, TOTAL_LENGHT / ARROW_RATE + LETTER_LENGHT / 2.0f, 0.0f);
+        
+        glVertex3f(LETTER_LENGHT + LETTER_PAD - LETTER_LENGHT, TOTAL_LENGHT / ARROW_RATE + LETTER_LENGHT, 0.0f);
+        glVertex3f(LETTER_LENGHT + LETTER_PAD - LETTER_LENGHT / 2.0f, TOTAL_LENGHT / ARROW_RATE + LETTER_LENGHT / 2.0f, 0.0f);
+
+        glVertex3f(LETTER_LENGHT + LETTER_PAD - LETTER_LENGHT / 2.0f, TOTAL_LENGHT / ARROW_RATE, 0.0f);
+        glVertex3f(LETTER_LENGHT + LETTER_PAD - LETTER_LENGHT / 2.0f, TOTAL_LENGHT / ARROW_RATE+ LETTER_LENGHT / 2.0f, 0.0f);
+
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(0.0f, LETTER_PAD + LETTER_LENGHT, TOTAL_LENGHT / ARROW_RATE - LETTER_LENGHT);
+        glVertex3f(0.0f, LETTER_PAD, TOTAL_LENGHT / ARROW_RATE);
+        glVertex3f(0.0f, LETTER_PAD, TOTAL_LENGHT / ARROW_RATE - LETTER_LENGHT);
+        glVertex3f(0.0f, LETTER_PAD, TOTAL_LENGHT / ARROW_RATE);
+        glVertex3f(0.0f, LETTER_PAD + LETTER_LENGHT, TOTAL_LENGHT / ARROW_RATE - LETTER_LENGHT);
+        glVertex3f(0.0f, LETTER_PAD + LETTER_LENGHT, TOTAL_LENGHT / ARROW_RATE);
+        glEnd();
+
+        glLineWidth(1.0f);
+        
     }
 };
 

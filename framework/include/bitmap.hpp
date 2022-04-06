@@ -43,7 +43,6 @@ public:
         _width = content[18] + (content[19] << 8);
         _height = content[22] + (content[23] << 8);
         size_t row_length = ((((no_alpha)?(3):(4)) * _width + 3) / 4) * 4;
-        std::cout << row_length << std::endl;
         _data.clear();
         _data.reserve(_width * _height * 4);
 

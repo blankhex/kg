@@ -185,20 +185,20 @@ float ease_in_out_elastic(float t)
 
 float ease_in_bounce(float t)
 {
-    return pow( 2, 6 * (t - 1) ) * abs( sin( t * PI * 3.5 ) );
+    return pow( 2, 6 * (t - 1) ) * fabs( sin( t * PI * 3.5 ) );
 }
 
 float ease_out_bounce(float t)
 {
-    return 1 - pow( 2, -6 * t ) * abs( cos( t * PI * 3.5 ) );
+    return 1 - pow( 2, -6 * t ) * fabs( cos( t * PI * 3.5 ) );
 }
 
 float ease_in_out_bounce(float t)
 {
     if( t < 0.5 ) {
-        return 8 * pow( 2, 8 * (t - 1) ) * abs( sin( t * PI * 7 ) );
+        return 8 * pow( 2, 8 * (t - 1) ) * fabs( sin( t * PI * 7 ) );
     } else {
-        return 1 - 8 * pow( 2, -8 * t ) * abs( sin( t * PI * 7 ) );
+        return 1 - 8 * pow( 2, -8 * t ) * fabs( sin( t * PI * 7 ) );
     }
 }
 }

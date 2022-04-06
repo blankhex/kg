@@ -10,23 +10,25 @@
 app myapp;
 
 // Собственные объекты 
-class animated_teapot : public kg::wire_teapot
+class animated_teapot : public kg::wire_cylinder
 {
 protected:
     virtual void on_update()
     {
         time += 1;
-        
-        float factor = 1.0f;
+        const float from_x = 0.0f;
+        const float to_x = 5.0f;
+
+        float factor = from_x;
 
         if (time < 100)
-            factor = kg::ease(1.0f, 2.15f, time / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(from_x, to_x, time / 100.0f, kg::ease_in_out_cubic);
         else if (time < 200)
-            factor = kg::ease(2.15f, 1.0f, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(to_x, from_x, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
         else
             time = 0;
 
-        scale(kg::vector3(factor));
+        position(kg::vector3(factor, 0.0f, 0.0f));
     }
 
 private:

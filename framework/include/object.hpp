@@ -74,7 +74,7 @@ public:
         glRotatef(_rotation.x(), 1.0f, 0.0f, 0.0f);
         glRotatef(_rotation.y(), 0.0f, 1.0f, 0.0f);
         glRotatef(_rotation.z(), 0.0f, 0.0f, 1.0f);
-        
+
         glMaterialfv(GL_FRONT, GL_AMBIENT, _ambient.data);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, _diffuse.data);
         glMaterialfv(GL_FRONT, GL_SPECULAR, _specular.data);

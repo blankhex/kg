@@ -1,33 +1,50 @@
-CC=gcc
-CXX=g++
-LD=g++
+SRCDIR	:= src
+INCDIR	:= include
+OBJDIR	:= bin
 
-CFLAGS=-Iinclude
-CXXFLAGS=-Iinclude
-LDFLAGS= -lfreeglut -lopengl32 -lglu32
+CXX			:= g++
+CXXFLAGS	:= -I$(INCDIR) -Iframework/include
+LDFLAGS		:= -lfreeglut -lopengl32 -lglu32
+MKDIR		:= mkdir
+RM			:= del /q /s /f
+RMDIR		:= rmdir /s /q
 
-LAB01_OBJECTS=include/easing.o src/lab01.o 
-LAB02_OBJECTS=include/easing.o src/lab02.o 
-FINAL_OBJECTS=include/easing.o src/final.o 
+OBJS := $(wildcard $(SRCDIR)/*.cpp)
+OBJS := $(patsubst %.cpp,%.o,$(OBJS))
+OBJS := $(patsubst %.c,%.o,$(OBJS))
+OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(OBJS))
 
+DEPS := $(wildcard $(INCDIR)/*.hpp framework/include/*.hpp)
 
-all: lab01.exe lab02.exe final.exe
+all: build
 
-lab01.exe: ${LAB01_OBJECTS}
-	${LD} $^ ${LDFLAGS} -o $@
+build: $(OBJDIR) lab01.exe lab02.exe final.exe m_lab01.exe
 
-lab02.exe: ${LAB02_OBJECTS}
-	${LD} $^ ${LDFLAGS} -o $@
+$(OBJDIR):
+	$(MKDIR) $(OBJDIR)
 
-final.exe: ${FINAL_OBJECTS}
-	${LD} $^ ${LDFLAGS} -o $@
+lab01.exe: $(OBJDIR)/lab01.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
 
-%.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+lab02.exe: $(OBJDIR)/lab02.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
 
-%.o: %.cpp
-	${CXX} ${CXXFLAGS} -c $< -o $@ 
+final.exe: $(OBJDIR)/final.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
 
-src/lab01.o: include/object.hpp include/objects.hpp include/vector3.hpp include/vector4.hpp include/light.hpp include/camera.hpp include/bitmap.hpp include/app.hpp include/easing.hpp
-src/lab02.o: include/object.hpp include/objects.hpp include/vector3.hpp include/vector4.hpp include/light.hpp include/camera.hpp include/bitmap.hpp include/app.hpp include/easing.hpp
-src/final.o: include/object.hpp include/objects.hpp include/vector3.hpp include/vector4.hpp include/light.hpp include/camera.hpp include/bitmap.hpp include/app.hpp include/easing.hpp
+m_lab01.exe: $(OBJDIR)/m_lab01.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+framework/framework.a: $(DEPS)
+	$(MAKE) -C framework
+
+clean:
+	$(MAKE) -C framework clean
+	-$(RM) lab01.exe lab02.exe final.exe m_lab01.exe
+	-$(RMDIR) $(OBJDIR)
+	
+
+.PHONY: clean

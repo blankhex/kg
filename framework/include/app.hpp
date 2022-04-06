@@ -93,7 +93,7 @@ public:
             obj->draw();
         }
 
-        _light.disable();
+        //_light.disable();
         glutSwapBuffers();
     }
 

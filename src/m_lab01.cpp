@@ -87,7 +87,7 @@ protected:
     {
         time += 1;
         const float from_y = 3.0f;
-        const float to_y = 1.5f;
+        const float to_y = 1.3f;
 
         float factor = from_y;
 

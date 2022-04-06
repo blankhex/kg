@@ -84,9 +84,15 @@ protected:
         auto& diffuse_light = light.diffuse();
 
         if (action_a)
-            diffuse_light.x() = kg::ease(diffuse_light.x(), 0.0f, 0.1, kg::ease_in_out_sine);
+        {
+            diffuse_light.x() = kg::ease(diffuse_light.x(), 0.25f, 0.1, kg::ease_in_out_sine);
+            diffuse_light.y() = kg::ease(diffuse_light.y(), 0.5f, 0.1, kg::ease_in_out_sine);
+        }
         else
+        {
             diffuse_light.x() = kg::ease(diffuse_light.x(), 1.0f, 0.1, kg::ease_in_out_sine);
+            diffuse_light.y() = kg::ease(diffuse_light.y(), 1.0f, 0.1, kg::ease_in_out_sine);
+        }
         
         color(diffuse_light);
     }

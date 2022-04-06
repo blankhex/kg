@@ -117,10 +117,10 @@ private:
     vector3 _rotation = vector3(0.0f);
     vector3 _scale = vector3(1.0f);
 
-    vector4 _ambient = vector4(1.0f);
-    vector4 _diffuse = vector4(0.5f);
-    vector4 _specular = vector4(0.0f);
-    vector4 _emmision = vector4(0.0f);
+    vector4 _ambient = vector4(0.2f, 0.2f, 0.2f, 1.0f);
+    vector4 _diffuse = vector4(0.8f, 0.8f, 0.8f, 1.0f);
+    vector4 _specular = vector4(0.0f, 0.0f, 0.0f, 1.0f);
+    vector4 _emmision = vector4(0.0f, 0.0f, 0.0f, 1.0f);
     float _shininess = 0.0f;
     bool _use_light = true;
     bool _use_texture = false;

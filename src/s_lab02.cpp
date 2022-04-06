@@ -48,9 +48,9 @@ protected:
         auto& camera = myapp.camera();
         auto& position = camera.position();
 
-        position.x() = sin(time / 100.0f) * 7.0f;
-        position.y() = 3.5f;
-        position.z() = cos(time / 100.0f) * 7.0f;
+        position.x() = sin(time / 200.0f) * 6.5f;
+        position.y() = 4.0f;
+        position.z() = cos(time / 200.0f) * 6.5f;
 
         camera.look_at(kg::vector3(0.0f));
     }
@@ -70,7 +70,7 @@ protected:
         auto& position = light.position();
 
         position.x() = sin(time / 35.0f) * 3.0f;
-        position.y() = cos(time / 25.0f) * 2.5f;
+        position.y() = 2.5f; //cos(time / 25.0f) * 2.5f;
         position.z() = cos(time / 35.0f) * 3.0f;
         position.w() = 1.0f;
 
@@ -85,9 +85,9 @@ protected:
         auto& diffuse_light = light.diffuse();
         
         if (action_a)
-            diffuse_light.x() = kg::ease(diffuse_light.x(), 0.0f, 0.1, kg::ease_in_out_sine);
+            diffuse_light.y() = kg::ease(diffuse_light.y(), 0.2f, 0.1, kg::ease_in_out_sine);
         else
-            diffuse_light.x() = kg::ease(diffuse_light.x(), 1.0f, 0.1, kg::ease_in_out_sine);
+            diffuse_light.y() = kg::ease(diffuse_light.y(), 1.0f, 0.1, kg::ease_in_out_sine);
         
         color(diffuse_light);
     }
@@ -196,7 +196,7 @@ int main(int argc, char** argv)
     glutInitWindowPosition(200, 200);
     glutCreateWindow("KG");
 
-    myapp.init(kg::vector4(0.25f, 0.25f, 0.25f, 0.0f));
+    myapp.init();
 
     // Собсвтенные объекты здесь
     auto cmover = new camera_mover();
@@ -209,26 +209,21 @@ int main(int argc, char** argv)
     myapp.add(pivot);
 
     auto teapot = new animated_teapot();
-    teapot->color(kg::vector4(1.0f, 1.0f, 1.0f, 1.0f));
+    teapot->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
     teapot->shininess(128.0f);
     teapot->specular(kg::vector4(1.0f));
-    teapot->diffuse(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
     
     myapp.add(teapot);
 
     auto cube = new kg::textured_cube();
-    cube->color(kg::vector4(1.0f, 0.0f, 0.0f, 1.0f));
+    cube->color(kg::vector4(1.0f, 1.0f, 1.0f, 1.0f));
     cube->position(kg::vector3(-3.0f, 1.0f, 0.0f));
     cube->use_texture(true);
-    cube->ambient(kg::vector4(0.5f, 0.5f, 0.5f, 1.0f));
-    cube->emmision(kg::vector4(0.5f, 0.5f, 0.5f, 1.0f));
     myapp.add(cube);
 
     auto cone = new custom_cone();
-    cone->color(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
+    cone->color(kg::vector4(1.0f, 0.1f, 0.1f, 1.0f));
     cone->position(kg::vector3(3.0f, 3.0f,0.0f));
-    cone->diffuse(kg::vector4(1.0f, 0.0f, 1.0f, 1.0f));
-    cone->specular(kg::vector4(0.2f, 0.2f, 0.2f, 1.0f));
     myapp.add(cone);
 
     auto torus = new custom_torus();

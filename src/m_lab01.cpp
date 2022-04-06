@@ -44,12 +44,12 @@ protected:
 
         auto &camera = myapp.camera();
         auto &position = camera.position();
+        
+        position.x() = 4.5f;
+        position.y() = 3.0f;
+        position.z() = 4.5f;
 
-        position.x() = 6.0f;
-        position.y() = 3.5f;
-        position.z() = 6.0f;
-
-        camera.look_at(kg::vector3(0.0f));
+        camera.look_at(kg::vector3(2.0f, 0.0f, 0.0f));
     }
 
 private:

@@ -9,8 +9,8 @@
 
 app myapp;
 
-// Собственные объекты 
-class animated_teapot : public kg::wire_cylinder
+// Собственные объекты
+class animated_cylinder : public kg::wire_cylinder
 {
 protected:
     virtual void on_update()
@@ -42,8 +42,8 @@ protected:
     {
         time++;
 
-        auto& camera = myapp.camera();
-        auto& position = camera.position();
+        auto &camera = myapp.camera();
+        auto &position = camera.position();
 
         position.x() = sin(time / 100.0f) * 5.0f;
         position.y() = 2.5f;
@@ -56,40 +56,20 @@ private:
     int time = 0;
 };
 
-class custom_torus : public kg::wire_torus
+class animated_torus : public kg::wire_torus
 {
 protected:
     virtual void on_translate()
     {
         time++;
         float factor = 0.0f;
+        float from_angle = 0.0f;
+        float to_angle = 90.0f;
 
         if (time < 100)
-            factor = kg::ease(0.0f, 45.0f, time / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(from_angle, to_angle, time / 100.0f, kg::ease_in_out_cubic);
         else if (time < 200)
-            factor = kg::ease(45.0f, 0.0f, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
-        else
-            time = 0;
-
-        glRotatef(factor, 0.0f, 0.0f, 1.0f);
-    }
-
-private:
-    int time = 0;
-};
-
-class custom_cone : public kg::wire_cone
-{
-protected:
-    virtual void on_translate()
-    {
-        time++;
-        float factor = 0.0f;
-
-        if (time < 100)
-            factor = kg::ease(0.0f, 60.0f, time / 100.0f, kg::ease_in_out_cubic);
-        else if (time < 200)
-            factor = kg::ease(60.0f, 0.0f, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(to_angle, from_angle, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
         else
             time = 0;
 
@@ -100,10 +80,38 @@ private:
     int time = 0;
 };
 
+class animated_tetrahedron : public kg::wire_tetrahedron
+{
+protected:
+    virtual void on_update()
+    {
+        time += 1;
+        const float from_y = 3.0f;
+        const float to_y = 1.5f;
 
-// Код проекта 
+        float factor = from_y;
 
-void timer(int) {
+        if (time < 100)
+            factor = kg::ease(from_y, to_y, time / 100.0f, kg::ease_in_out_cubic);
+        else if (time < 200)
+            factor = kg::ease(to_y, from_y, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
+        else
+            time = 0;
+
+        float x = position().x();
+        float z = position().z();
+
+        position(kg::vector3(x, factor, z));
+    }
+
+private:
+    int time = 0;
+};
+
+// Код проекта
+
+void timer(int)
+{
     glutPostRedisplay();
     glutTimerFunc(1000 / 60, timer, 0);
 }
@@ -114,7 +122,7 @@ void display()
     myapp.draw();
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE);
@@ -131,27 +139,37 @@ int main(int argc, char** argv)
     auto pivot = new kg::pivot();
     myapp.add(pivot);
 
-    auto teapot = new animated_teapot();
-    teapot->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
-    teapot->use_light(false);
-    myapp.add(teapot);
+    auto cylinder = new animated_cylinder();
+    cylinder->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
+    cylinder->rotation(kg::vector3(90.0f));
+    cylinder->use_light(false);
+    myapp.add(cylinder);
 
     auto cube = new kg::wire_cube();
+    cube->position(kg::vector3(-2.0f, 0.0f, 0.0f));
     cube->color(kg::vector4(1.0f, 0.0f, 0.0f, 1.0f));
-    cube->scale(kg::vector3(3.0f));
+    cube->scale(kg::vector3(2.0f));
     cube->use_light(false);
     myapp.add(cube);
 
-    auto cone = new custom_cone();
-    cone->color(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
-    cone->use_light(false);
-    cone->position(kg::vector3(3.0f, 3.0f,0.0f));
-    myapp.add(cone);
+    auto tetrahedron = new animated_tetrahedron();
+    tetrahedron->position(kg::vector3(-2.0f, 3.0f, 0.0f));
+    tetrahedron->color(kg::vector4(1.0f, 0.0f, 1.0f, 1.0f));
+    tetrahedron->use_light(false);
+    tetrahedron->rotation(kg::vector3(0.0f, 0.0f, -15.0f));
+    myapp.add(tetrahedron);
 
-    auto torus = new custom_torus();
+    auto sphere = new kg::wire_sphere();
+    sphere->color(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
+    sphere->use_light(false);
+    sphere->scale(kg::vector3(0.74f));
+    sphere->position(kg::vector3(2.5f, 0.0f, 0.0f));
+    myapp.add(sphere);
+
+    auto torus = new animated_torus();
     torus->color(kg::vector4(0.0f, 1.0f, 0.0f, 1.0f));
     torus->use_light(false);
-    torus->position(kg::vector3(3.0f, 3.0f, 1.0f));
+    torus->position(kg::vector3(0.0f, 3.0f, 0.0f));
     myapp.add(torus);
 
     glutDisplayFunc(display);

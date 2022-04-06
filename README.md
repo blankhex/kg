@@ -37,3 +37,10 @@ m_lab01.exe: $(OBJDIR)/m_lab01.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 # ^^^	Добавьте свои цели сборки сюда	^^^
 ```
+
+## Конфигурация VS:Code
+Чтобы VS:Code не ругался на отсутсвущие заголовки, необходимо прописать includePath
+```
+${workspaceFolder}/include/**
+${workspaceFolder}/framework/include/**
+```

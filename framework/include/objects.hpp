@@ -198,11 +198,34 @@ protected:
     }
 };
 
+class grid : public object
+{
+    const int SIZE = 64;
+    const float SPACE = 1.0f;
+protected:
+    virtual void on_draw()
+    {
+        glDisable(GL_LIGHTING);
+        glBegin(GL_LINES);
+
+        for (int i = 0; i < SIZE; i++)
+        {
+            glColor4f(0.2f, 0.2f, 0.2f, 0.5f);
+            glVertex3f(-SIZE / 2 * SPACE, 0.0f, i * SPACE - (SIZE / 2) * SPACE);
+            glVertex3f(SIZE / 2 * SPACE, 0.0f, i * SPACE - (SIZE / 2) * SPACE);
+            
+            glVertex3f(i * SPACE - (SIZE / 2) * SPACE, 0.0f, -SIZE / 2 * SPACE);
+            glVertex3f(i * SPACE - (SIZE / 2) * SPACE, 0.0f, SIZE / 2 * SPACE);
+        }
+        glEnd();
+    }
+};
+
 class pivot : public object
 {
-    const float TOTAL_LENGHT = 5.0f;
+    const float TOTAL_LENGHT = 4.0f;
     const float ARROW_LENGHT = 0.3f;
-    const float LETTER_LENGHT = 0.5f;
+    const float LETTER_LENGHT = 0.4f;
     const float LETTER_PAD = 0.2f;
     const float ARROW_RATE = 1.1f;
 protected:

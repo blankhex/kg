@@ -80,7 +80,7 @@ private:
     int time = 0;
 };
 
-class animated_tetrahedron : public kg::wire_tetrahedron
+class animated_tetrahedron : public kg::solid_tetrahedron
 {
 protected:
     virtual void on_update()
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     cylinder->use_light(false);
     myapp.add(cylinder);
 
-    auto cube = new kg::wire_cube();
+    auto cube = new kg::solid_cube();
     cube->position(kg::vector3(-2.0f, 0.0f, 0.0f));
     cube->color(kg::vector4(1.0f, 0.0f, 0.0f, 1.0f));
     cube->scale(kg::vector3(2.0f));

@@ -10,14 +10,14 @@
 app myapp;
 
 // Собственные объекты
-class animated_cylinder : public kg::solid_cylinder
+class animated_torus : public kg::solid_torus
 {
 protected:
     virtual void on_update()
     {
         time += 1;
-        const float from_x = 0.0f;
-        const float to_x = 5.0f;
+        const float from_x = 1.0f;
+        const float to_x = 0.3f;
 
         float factor = from_x;
 
@@ -28,7 +28,7 @@ protected:
         else
             time = 0;
 
-        position(kg::vector3(factor, 0.0f, 0.0f));
+        scale(kg::vector3(factor));
     }
 
 private:
@@ -45,7 +45,7 @@ protected:
         auto &camera = myapp.camera();
         auto &position = camera.position();
 
-        position.x() = 6.0f;
+        position.x() = 3.0f;
         position.y() = 3.5f;
         position.z() = 6.0f;
 
@@ -66,9 +66,8 @@ protected:
         auto& light = myapp.light();
         auto& position = light.position();
 
-        position.x() = sin(time / 35.0f) * 3.0f;
-        position.y() = cos(time / 25.0f) * 2.5f;
-        position.z() = cos(time / 35.0f) * 3.0f;
+        position.x() = 1.0f;
+        position.z() = cos(time / 35.0f) * 6.0f;
         position.w() = 1.0f;
 
         this->position(position.vector3());
@@ -90,7 +89,7 @@ private:
     int time = 0;
 };
 
-class animated_torus : public kg::solid_torus
+class animated_sphere : public kg::solid_sphere
 {
 protected:
     virtual void on_translate()
@@ -98,7 +97,7 @@ protected:
         time++;
         float factor = 0.0f;
         float from_angle = 0.0f;
-        float to_angle = 90.0f;
+        float to_angle = -90.0f;
 
         if (time < 100)
             factor = kg::ease(from_angle, to_angle, time / 100.0f, kg::ease_in_out_cubic);
@@ -107,7 +106,7 @@ protected:
         else
             time = 0;
 
-        glRotatef(factor, 1.0f, 0.0f, 0.0f);
+        glRotatef(factor, 0.0f, 0.0f, 1.0f);
     }
 
 private:
@@ -117,25 +116,21 @@ private:
 class animated_tetrahedron : public kg::solid_tetrahedron
 {
 protected:
-    virtual void on_update()
+    virtual void on_translate()
     {
-        time += 1;
-        const float from_y = 3.0f;
-        const float to_y = 1.5f;
-
-        float factor = from_y;
+        time++;
+        float factor = 0.0f;
+        float from_angle = 0.0f;
+        float to_angle = -180.0f;
 
         if (time < 100)
-            factor = kg::ease(from_y, to_y, time / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(from_angle, to_angle, time / 100.0f, kg::ease_in_out_cubic);
         else if (time < 200)
-            factor = kg::ease(to_y, from_y, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
+            factor = kg::ease(to_angle, from_angle, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
         else
             time = 0;
 
-        float x = position().x();
-        float z = position().z();
-
-        position(kg::vector3(x, factor, z));
+        glRotatef(factor, 1.0f, 0.0f, 0.0f);
     }
 
 private:
@@ -172,25 +167,26 @@ int main(int argc, char **argv)
 
     auto cmover = new camera_mover();
     myapp.add(cmover);
-    
+
     auto light = new light_mover();
     myapp.add(light);
 
     auto pivot = new kg::pivot();
     myapp.add(pivot);
 
-    auto cylinder = new animated_cylinder();
-    cylinder->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
-    cylinder->rotation(kg::vector3(90.0f));
-    cylinder->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
-    cylinder->shininess(128.0f);
-    cylinder->specular(kg::vector4(1.0f));
-    cylinder->diffuse(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
-    myapp.add(cylinder);
+    auto torus = new animated_torus();
+    torus->color(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
+    torus->rotation(kg::vector3(90.0f));
+    torus->position(kg::vector3(0.0f, 1.0f, 4.0f));
+    torus->rotation(kg::vector3(0.0f, 45.0f, 0.0f));
+    torus->shininess(128.0f);
+    torus->specular(kg::vector4(1.0f));
+    torus->diffuse(kg::vector4(1.0f, 1.0f, 0.0f, 1.0f));
+    myapp.add(torus);
 
     auto cube = new kg::textured_cube();
     cube->use_texture(true);
-    cube->position(kg::vector3(-2.0f, 0.0f, 0.0f));
+    cube->position(kg::vector3(-1.0f, 0.0f, 3.0f));
     cube->color(kg::vector4(1.0f, 1.0f, 1.0f, 1.0f));
     cube->scale(kg::vector3(2.0f));
     cube->ambient(kg::vector4(0.1f, 0.1f, 0.1f, 1.0f));
@@ -203,19 +199,13 @@ int main(int argc, char **argv)
     tetrahedron->rotation(kg::vector3(0.0f, 0.0f, -15.0f));
     myapp.add(tetrahedron);
 
-    auto sphere = new kg::solid_sphere();
-    sphere->color(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
-    sphere->scale(kg::vector3(0.74f));
-    sphere->position(kg::vector3(2.5f, 0.0f, 0.0f));
+    auto sphere = new animated_sphere();
+    sphere->color(kg::vector4(0.0f, 1.0f, 0.0f, 1.0f));
+    sphere->position(kg::vector3(0.0f, 3.0f, 0.0f));
     sphere->shininess(128.0f);
     sphere->specular(kg::vector4(1.0f));
     sphere->diffuse(kg::vector4(0.0f, 0.0f, 1.0f, 1.0f));
     myapp.add(sphere);
-
-    auto torus = new animated_torus();
-    torus->color(kg::vector4(0.0f, 1.0f, 0.0f, 0.5f));
-    torus->position(kg::vector3(0.0f, 3.0f, 0.0f));
-    myapp.add(torus);
 
     glutDisplayFunc(display);
     timer(0);

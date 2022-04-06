@@ -31,7 +31,6 @@ protected:
         else
             time = 0;
 
-        scale(kg::vector3(factor));
     }
 
 private:
@@ -123,8 +122,6 @@ protected:
             factor = kg::ease(to_angle, from_angle, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
         else
             time = 0;
-
-        glRotatef(factor, 0.0f, 0.0f, 1.0f);
     }
 
 private:
@@ -148,7 +145,6 @@ protected:
         else
             time = 0;
 
-        glRotatef(factor, 1.0f, 0.0f, 0.0f);
     }
 
 private:

@@ -20,6 +20,7 @@ DEPS := $(wildcard $(INCDIR)/*.hpp framework/include/*.hpp)
 TARGETS := s_lab01.exe s_lab02.exe s_final.exe
 TARGETS += a_lab01.exe a_lab02.exe a_final.exe
 TARGETS += m_lab01.exe m_lab02.exe m_final.exe
+TARGETS += r_lab01.exe r_lab02.exe r_final.exe
 # ^^^	Добавьте свои цели сборки сюда	^^^
 
 all: build
@@ -68,5 +69,14 @@ a_lab02.exe: $(OBJDIR)/a_lab02.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 
 a_final.exe: $(OBJDIR)/a_final.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+	
+r_lab01.exe: $(OBJDIR)/r_lab01.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+r_lab02.exe: $(OBJDIR)/r_lab02.o framework/framework.a
+	$(CXX) $^ -o $@ $(LDFLAGS)
+
+r_final.exe: $(OBJDIR)/r_final.o framework/framework.a
 	$(CXX) $^ -o $@ $(LDFLAGS)
 # ^^^	Добавьте свои цели сборки сюда	^^^

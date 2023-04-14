@@ -19,22 +19,9 @@ class animated_cube : public kg::textured_cube
 protected:
     virtual void on_update()
     {
-        time += 1;
-        
-        float factor = 2.0f;
-
-        if (time < 100)
-            factor = kg::ease(2.0f, 4.0f, time / 100.0f, kg::ease_in_out_cubic);
-        else if (time < 200)
-            factor = kg::ease(4.0f, 2.0f, (time - 100.0f) / 100.0f, kg::ease_in_out_cubic);
-        else
-            time = 0;
-
+        float factor = 3.0f;
         scale(kg::vector3(factor));
     }
-    
-private:
-    int time = 0;
 };
 
 class animated_cone : public kg::solid_cone
@@ -119,7 +106,7 @@ protected:
 
         light.linear_attenuation() = 0.80f;
         light.quadratic_attenuation() = 0.08f;
-        light.ambient(kg::vector4(0.0f, 0.0f, 0.0f, 1.0f));
+        light.ambient(kg::vector4(0.6f, 0.6f, 0.6f, 1.0f));
         
         auto& diffuse_light = light.diffuse();
         
